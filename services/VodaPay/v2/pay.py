@@ -1,8 +1,11 @@
 import requests
-
+from datetime import datetime, timedelta
 from services.VodaPay.utils.request import request
 
 def payment (paymentRequestId, paymentNotifyUrl, paymentExpiryTime, amountInCents, goodsId, buyerId, goodsName = "mobile1", orderDescription = "title"):
+
+    now = datetime.now() + timedelta(hours=paymentExpiryTime)
+    expiryTime = now.astimezone().isoformat()
 
     body = {
             "productCode":"CASHIER_PAYMENT",
@@ -10,7 +13,7 @@ def payment (paymentRequestId, paymentNotifyUrl, paymentExpiryTime, amountInCent
             "paymentNotifyUrl": f"{paymentNotifyUrl}",
             "paymentRequestId": f"{paymentRequestId}",
             "paymentRedirectUrl":"http://mock.vision.vodacom.aws.corp/mock/api/v1/payments/notifyPayment.htm",
-            "paymentExpiryTime": f"{paymentExpiryTime}",
+            "paymentExpiryTime": f"{expiryTime}",
             "paymentAmount":{
                 "currency":"ZAR",
                 "value": f"{amountInCents}"
