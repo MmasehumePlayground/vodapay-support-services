@@ -1,0 +1,5 @@
+# ignore python cache
+*.pyc
+
+# test certificates
+/certificates
