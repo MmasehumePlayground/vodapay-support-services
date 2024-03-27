@@ -1,10 +1,14 @@
 import json
 import requests
-from services.VodaPay.utils.constants import configurations
+
+from config import Configuration
 from services.VodaPay.utils.headerConstructor import construct_headers
 
 def build_url(endpoint):
-        return f"{configurations['VODAPAY_BASEURL']}/{endpoint}"
+    config = Configuration._instance
+    VODAPAY_BASEURL = config.get_config()["VODAPAY_BASEURL"]
+
+    return f"{VODAPAY_BASEURL}/{endpoint}"
 
 def request (method, endPoint, body):
 

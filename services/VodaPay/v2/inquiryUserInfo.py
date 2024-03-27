@@ -1,15 +1,18 @@
 import requests
 
+from config import Configuration
 from services.VodaPay.utils.request import request
-from services.VodaPay.utils.constants import configurations
 
 def inquiryUserInfo (accessCode) :
 
     if not isinstance(accessCode, Exception) and (accessCode.get("result", {}).get("resultStatus").lower() != 'f'):
 
         code = accessCode['accessToken']
+        config = Configuration._instance
+        VODAPAY_CLIENT_ID = config.get_config()["VODAPAY_CLIENT_ID"]
+
         userInfoBody = {
-            "authClientId": configurations['VODAPAY_CLIENT_ID'],
+            "authClientId": VODAPAY_CLIENT_ID,
             "accessToken": code
         }
         

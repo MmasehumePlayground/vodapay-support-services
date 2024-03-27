@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from config import Configuration
 from services.VodaPay.utils.signature import generate_signature
-from services.VodaPay.utils.constants import configurations
 
 def construct_headers (method, endPoint, body, isRequest = True):
 
@@ -10,10 +10,12 @@ def construct_headers (method, endPoint, body, isRequest = True):
     requestTime = now.astimezone().isoformat()
 
     signature_value = generate_signature (method, endPoint, requestTime, body)
+    config = Configuration._instance
+    VODAPAY_CLIENT_ID = config.get_config()["VODAPAY_CLIENT_ID"]
 
     headers = {
         'Content-Type': 'application/json',
-        'client-id': configurations['VODAPAY_CLIENT_ID'], 
+        'client-id': VODAPAY_CLIENT_ID, 
         'signature': f'algorithm=RSA256, keyVersion=1, signature={signature_value}'
     }
 
