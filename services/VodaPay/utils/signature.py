@@ -37,7 +37,7 @@ def generate_signature (method, endPoint, requestTime, body):
             privateKey = RSA.import_key(privateKeyData)
 
     except FileNotFoundError:
-        raise FileNotFoundError(f"Private key file not found at: {configurations['PRIVATE_KEY_PATH']}")
+        raise FileNotFoundError(f"Private key file not found at: {config.get_config()["PRIVATE_KEY_PATH"]}")
 
     signature = pkcs1_15.new(privateKey).sign(hash)
     encodedSignature = base64.b64encode(signature).decode()
